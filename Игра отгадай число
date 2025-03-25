@@ -1,9 +1,13 @@
+# игра отгадай число cо счетчиком попыток
+
 import random
 number = random.randint(1, 100)
 print("Я загадал число от 1 до 100. Сможете угадать какое?")
+attempts = 0
 guesses_made = 0
-while guesses_made < 3:
+while guesses_made < 100:
     guess = int(input('Введите число: '))
+    attempts += 1
     guesses_made = guesses_made + 1
     if guess < number:
         print('Ваше число меньше того, что я загадал.')
@@ -15,7 +19,6 @@ while guesses_made < 3:
         break
 
 if guess == number:
-    print ('Ух ты! Вы угадали мое число!'.format(guesses_made))
+    print ('Ух ты! Вы угадали мое число за {0} попыток!'.format(guesses_made))
 else:
     print('А вот и не угадали! Я загадал число {0}'.format(number))
-    
