@@ -1,0 +1,43 @@
+# факториал
+
+i = 5
+sum = 1
+
+for i in range(1, i+1):
+    sum = sum * i
+
+print(sum)
+
+
+
+
+# палиндром
+
+S = '12321'
+if S[0]==S[-1] and S[1]==S[-2]:
+     print('true')
+else:
+     print('false')
+
+
+
+# четное или нечетное
+
+i=20
+if i % 2 == 0:
+     print ('четное')
+else:
+     print ('нечетное')
+
+
+
+# список чисел
+
+try:
+        num1 = float(input("Введите первое число: "))
+        num2 = float(input("Введите второе число: "))
+        result1 = add_numbers(num1, num2)
+        result2 = result1/ 2
+        print(f"Сумма: {result1}. Среднее значение: {result2}.")
+except ValueError:
+	        	print("Пожалуйста, введите корректные числа.")
