@@ -1,4 +1,4 @@
-# игра отгадай число cо счетчиком попыток
+# игра отгадай число
 
 import random
 number = random.randint(1, 100)
@@ -10,10 +10,10 @@ while guesses_made < 100:
     attempts += 1
     guesses_made = guesses_made + 1
     if guess < number:
-        print('Ваше число меньше того, что я загадал.')
+        print('Мое число больше.')
 
     if guess > number:
-        print('Ваше число больше загаданного мной.')
+        print('Мое число меньше.')
 
     if guess == number:
         break
