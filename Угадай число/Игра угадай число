@@ -1,24 +1,30 @@
 # игра отгадай число
 
 import random
-number = random.randint(1, 100)
-print("Я загадал число от 1 до 100. Сможете угадать какое?")
-attempts = 0
-guesses_made = 0
-while guesses_made < 100:
-    guess = int(input('Введите число: '))
-    attempts += 1
-    guesses_made = guesses_made + 1
-    if guess < number:
-        print('Мое число больше.')
+def guess_number_game():
+    number = random.randint(1, 100)
+    attempts = 0
+    max_attempts = 10  # Ограничиваем количество попыток
 
-    if guess > number:
-        print('Мое число меньше.')
+    print("Я загадал число от 1 до 100. Сможете угадать какое?")
 
-    if guess == number:
-        break
+    while attempts < max_attempts:
+        try:
+            guess = int(input('Введите число: '))
+            attempts += 1
 
-if guess == number:
-    print ('Ух ты! Вы угадали мое число за {0} попыток!'.format(guesses_made))
-else:
-    print('А вот и не угадали! Я загадал число {0}'.format(number))
+            if guess < number:
+                print('Мое число больше.')
+            elif guess > number:
+                print('Мое число меньше.')
+            else:
+                print(f'Ух ты. Вы угадали мое число за {attempts} попыток!')
+                break
+        except ValueError:
+            print("Пожалуйста, введите целое число.")
+
+    if attempts == max_attempts and guess != number:
+        print(f'А вот и не угадали! Я загадал число {number}')
+
+if __name__ == "__main__":
+    guess_number_game()
