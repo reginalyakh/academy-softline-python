@@ -5,11 +5,37 @@
 import random
 import string
 
+def generate_password(length, use_uppercase, use_lowercase, use_digits, use_special):
+    characters = ''
+    if use_uppercase:
+        characters += string.ascii_uppercase
+    if use_lowercase:
+        characters += string.ascii_lowercase
+    if use_digits:
+        characters += string.digits
+    if use_special:
+        characters += string.punctuation
 
-def generate_password(length):
-    characters = string.ascii_letters + string.digits + string.punctuation
-    password = ''.join(random.choice(characters) for _ in range(length))
-    return password
+    if not characters:
+        print("Не выбраны допустимые символы для пароля.")
+        return None
+
+    # Убедитесь, что включен хотя бы один символ каждого выбранного типа
+    password = []
+    if use_uppercase:
+        password.append(random.choice(string.ascii_uppercase))
+    if use_lowercase:
+        password.append(random.choice(string.ascii_lowercase))
+    if use_digits:
+        password.append(random.choice(string.digits))
+    if use_special:
+        password.append(random.choice(string.punctuation))
+
+    # Заполните оставшуюся часть пароля случайными символами из выбранного набора
+    password += random.choices(characters, k=length - len(password))
+    random.shuffle(password)
+
+    return ''.join(password)
 
 def get_yes_no_input(prompt):
     while True:
@@ -21,24 +47,35 @@ def get_yes_no_input(prompt):
         else:
             print("Пожалуйста, введите 'да' или 'нет'")
 
+def save_password_to_file(password, filename='password.txt'):
+    with open(filename, 'w') as file:
+        file.write(password)
+    print(f"Пароль сохранён в файл {filename}")
 
-password_length = input('Введите желаемую длину пароля: ')
-try:
-    password_length = int(password_length)
-except:
-    print("Это не целое число")
-    exit()
+def main():
+    password_length = input('Введите желаемую длину пароля: ')
+    try:
+        password_length = int(password_length)
+    except ValueError:
+        print("Это не целое число")
+        return
 
+    if password_length < 8 or password_length > 30:
+        print("Длина пароля не может быть меньше 8 символов и больше 30")
+        return
 
-if password_length < 8 or password_length > 20:
-    print("Не может быть меньше 8 символов и больше 30")
-    exit()
+    use_uppercase = get_yes_no_input("Использовать заглавные буквы (A-Z)? [да/нет]: ")
+    use_lowercase = get_yes_no_input("Использовать строчные буквы (a-z)? [да/нет]: ")
+    use_digits = get_yes_no_input("Использовать цифры (0-9)? [да/нет]: ")
+    use_special = get_yes_no_input("Использовать специальные символы (!@#$%^&*)? [да/нет]: ")
 
-use_uppercase = get_yes_no_input("Использовать заглавные буквы (A-Z)? [да/нет]: ")
-use_lowercase = get_yes_no_input("Использовать строчные буквы (a-z)? [да/нет]: ")
-use_digits = get_yes_no_input("Использовать цифры (0-9)? [да/нет]: ")
-use_special = get_yes_no_input("Использовать специальные символы (!@#$%^&*)? [да/нет]: ")
+    generated_password = generate_password(password_length, use_uppercase, use_lowercase, use_digits, use_special)
+    if generated_password:
+        print("Ваш сгенерированный пароль:", generated_password)
+        save_to_file = get_yes_no_input("Сохранить пароль в файл? [да/нет]: ")
+        if save_to_file:
+            save_password_to_file(generated_password)
 
+if __name__ == "__main__":
+    main()
 
-generated_password = generate_password(password_length)
-print("Ваш сгенерированный пароль:", generated_password)
